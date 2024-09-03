@@ -1,49 +1,17 @@
 package com.distribuidos;
 
+import com.distribuidos.models.AddTaskRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Proxy {
 
-    public String empacotarMensagem(Mensagem msg){
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = null;
-        try {
-            json = objectMapper.writeValueAsString(msg);   
-        } catch (Exception e) {
-            System.out.println("INFO: " + e);
-        }
-        return json;
-    }
+    private static int requestCounter = 0;
 
-    public Task desempacotarTask(String json){
-        ObjectMapper objectMapper = new ObjectMapper();
-        Task task = new Task();
-        try {
-            task = objectMapper.readValue(json, Task.class);
-        } catch (Exception e) {
-            System.out.println("INFO: " + e);
-        }
-        return task;
-    }
+    public String addTask(AddTaskRequest request){
 
-    public Mensagem desempacotarMensagem(String json){
-        ObjectMapper objectMapper = new ObjectMapper();
-        Mensagem msg = new Mensagem();
-        try {
-            msg = objectMapper.readValue(json, Mensagem.class);
-        } catch (Exception e) {
-            System.out.println("INFO: " + e);
-        }
-        return msg;
-    }
-
-    private int requestCounter = 0;
-
-    public String addTask(String titulo, String descricao, Boolean estado){
-        
     }
     
-    public Task viewTask(int id){
+    public Task viewTask(viewTaskRequest request){
         
     }
 
@@ -51,21 +19,17 @@ public class Proxy {
 
     }
 
-    public String removeTask(int id){
-
-    }
-
-    public String doOperation(String json){
+    public String removeTask(RemoveTaskRequest request){
         
     }
 
-    public int getRequestCounter() {
-        return requestCounter;
+    public String doOperation(String ServiceName, String methodName, String arguments){
+        Proxy.requestCounter++;
+        Mensagem msg = new Mensagem(0, Proxy.requestCounter, ServiceName, methodName, arguments);
+        String serialized_msg = Mensagem.empacotarMensagem(msg);
+        //TODO O BAGULHO DE UDP ENTRA AQUI ALEXSON
+        String response = serialized_msg;
+        Mensagem response_msg = Mensagem.desempacotarMensagem(response);
+        return response_msg.getArguments();
     }
-
-    public void setRequestCounter(int requestCounter) {
-        this.requestCounter = requestCounter;
-    }
-
-    
 }

@@ -9,8 +9,6 @@ public class Task implements Serializable{
     private String description;
     private Boolean state;
 
-    
-
     public Task() {
         this.title = "title";
         this.description = "description";
@@ -32,6 +30,17 @@ public class Task implements Serializable{
             System.out.println("INFO: " + e);
         }
         return json;
+    }
+
+    public static Task desserializar(String json){
+        ObjectMapper objectMapper = new ObjectMapper();
+        Task task = new Task();
+        try {
+            task = objectMapper.readValue(json, Task.class);
+        } catch (Exception e) {
+            System.out.println("INFO: " + e);
+        }
+        return task;
     }
 
     public String getTitle() {

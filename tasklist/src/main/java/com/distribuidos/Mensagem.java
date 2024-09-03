@@ -9,8 +9,6 @@ public class Mensagem {
     private String methodId;
     private String arguments;
 
-    
-
     public Mensagem() {
         this.messageType = 0;
         this.id = 0;
@@ -25,6 +23,28 @@ public class Mensagem {
         this.objectReference = objectReference;
         this.methodId = methodId;
         this.arguments = arguments;
+    }
+
+    public static String empacotarMensagem(Mensagem msg){
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(msg);   
+        } catch (Exception e) {
+            System.out.println("INFO: " + e);
+        }
+        return json;
+    }
+
+    public static Mensagem desempacotarMensagem(String json){
+        ObjectMapper objectMapper = new ObjectMapper();
+        Mensagem msg = new Mensagem();
+        try {
+            msg = objectMapper.readValue(json, Mensagem.class);
+        } catch (Exception e) {
+            System.out.println("INFO: " + e);
+        }
+        return msg;
     }
 
     public int getMessageType() {
