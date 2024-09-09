@@ -25,7 +25,7 @@ public class Mensagem {
         this.arguments = arguments;
     }
 
-    public static String empacotarMensagem(Mensagem msg){
+    public static String empacotarMensagem(Mensagem msg) {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {
@@ -36,9 +36,9 @@ public class Mensagem {
         return json;
     }
 
-    public static Mensagem desempacotarMensagem(String json){
+    public static Mensagem desempacotarMensagem(String json) {
         ObjectMapper objectMapper = new ObjectMapper();
-        Mensagem msg = new Mensagem();
+        Mensagem msg = null;
         try {
             msg = objectMapper.readValue(json, Mensagem.class);
         } catch (Exception e) {
@@ -46,6 +46,7 @@ public class Mensagem {
         }
         return msg;
     }
+
 
     public int getMessageType() {
         return messageType;

@@ -3,7 +3,8 @@ package com.distribuidos.client_side;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.UnknownHostException;
+
+import com.distribuidos.models.AddTaskRequest;
 
 public class User {
 
@@ -47,7 +48,9 @@ public class User {
 				String titulo = stdin.readLine();
 				System.out.println("Digite a descrição da task: ");
 				String descricao = stdin.readLine();
-				resposta = Proxy.addTask(titulo, descricao, false);
+				AddTaskRequest taskRequest = new AddTaskRequest(titulo, descricao, false);
+				Proxy proxy = new Proxy();
+				resposta = proxy.addTask(taskRequest);
 				System.out.println("INFO: " + resposta);
 				break;
 
@@ -58,7 +61,7 @@ public class User {
 				break;
 
 			case 0:
-				clienteTcp.close();
+				//clienteTcp.close();
 				break;
 
 			default:

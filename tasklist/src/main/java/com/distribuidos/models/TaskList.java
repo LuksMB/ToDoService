@@ -1,36 +1,65 @@
 package com.distribuidos.models;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TaskList {
-    public String addTask(String titulo, String descricao, Boolean estado){
-        Task task = new Task(titulo, descricao, estado);
+    private static final String FILE_NAME = "tasks.txt";
 
-        String nomeArquivo = "tasks.ser";
+    public String addTask(String title, String description, boolean state) {
+        Task task = new Task(title, description, state);
+        List<Task> tasks = readTasksFromFile();
+        tasks.add(task);
+        return writeTasksToFile(tasks);
+    }
 
-        try (FileOutputStream fileOut = new FileOutputStream(nomeArquivo, true);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-            out.writeObject(task);
-
-        } catch (IOException i) {
-            i.printStackTrace();
-            return "Erro ao adicionar a tarefa.";
+    public Task viewTask(int index) {
+        List<Task> tasks = readTasksFromFile();
+        if (index >= 0 && index < tasks.size()) {
+            return tasks.get(index);
         }
-
-        return "Tarefa adicionada com sucesso.";
+        return null;
     }
 
-    public Task viewTask(int id){
-        
+    public Task[] viewAllTasks() {
+        List<Task> tasks = readTasksFromFile();
+        return tasks.toArray(new Task[0]);
     }
 
-    public Task[] viewAllTasks(){
-
+    public String removeTask(int index) {
+        List<Task> tasks = readTasksFromFile();
+        if (index >= 0 && index < tasks.size()) {
+            tasks.remove(index);
+            return writeTasksToFile(tasks);
+        }
+        return "Tarefa não encontrada.";
     }
 
-    public String removeTask(int id){
-        
+    private List<Task> readTasksFromFile() {
+        List<Task> tasks = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Task task = Task.desserializar(line);
+                tasks.add(task);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    private String writeTasksToFile(List<Task> tasks) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (Task task : tasks) {
+                writer.write(task.serializar());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Erro ao manipular tarefas.";
+        }
+        return "Operação realizada com sucesso.";
     }
 }

@@ -2,7 +2,6 @@ package com.distribuidos.client_side;
 
 import com.distribuidos.models.AddTaskRequest;
 import com.distribuidos.models.Mensagem;
-import com.distribuidos.models.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Proxy {
@@ -10,20 +9,28 @@ public class Proxy {
     private static int requestCounter = 0;
 
     public String addTask(AddTaskRequest request){
-
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String requestJson = objectMapper.writeValueAsString(request);
+            
+            return doOperation("TaskService", "addTask", requestJson);
+        } catch (Exception e) {
+            System.out.println("Erro ao serializar a requisição: " + e.getMessage());
+        }
+        return null;
     }
     
-    public Task viewTask(viewTaskRequest request){
+    // public Task viewTask(viewTaskRequest request){
         
-    }
+    // }
 
-    public Task[] viewAllTasks(){
+    // public Task[] viewAllTasks(){
 
-    }
+    // }
 
-    public String removeTask(RemoveTaskRequest request){
+    // public String removeTask(RemoveTaskRequest request){
         
-    }
+    // }
 
     public String doOperation(String ServiceName, String methodName, String arguments){
         Proxy.requestCounter++;
