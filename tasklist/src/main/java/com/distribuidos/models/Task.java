@@ -1,4 +1,4 @@
-package com.distribuidos;
+package com.distribuidos.models;
 
 import java.io.Serializable;
 import com.fasterxml.jackson.databind.ObjectMapper;

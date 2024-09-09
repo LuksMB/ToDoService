@@ -1,4 +1,4 @@
-package com.distribuidos;
+package com.distribuidos.clientSide;
 
 import java.io.BufferedReader;
 import java.io.IOException;

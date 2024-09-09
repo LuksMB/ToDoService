@@ -1,4 +1,4 @@
-package com.distribuidos;
+package com.distribuidos.models;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

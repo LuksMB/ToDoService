@@ -1,6 +1,8 @@
-package com.distribuidos;
+package com.distribuidos.clientSide;
 
 import com.distribuidos.models.AddTaskRequest;
+import com.distribuidos.models.Mensagem;
+import com.distribuidos.models.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Proxy {

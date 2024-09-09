@@ -1,4 +1,4 @@
-package com.distribuidos;
+package com.distribuidos.clientSide;
 
 import java.net.*;
 import java.io.*;

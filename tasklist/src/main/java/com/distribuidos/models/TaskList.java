@@ -1,4 +1,4 @@
-package com.distribuidos;
+package com.distribuidos.models;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
