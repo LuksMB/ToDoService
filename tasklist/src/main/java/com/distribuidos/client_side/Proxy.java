@@ -1,4 +1,4 @@
-package com.distribuidos.clientSide;
+package com.distribuidos.client_side;
 
 import com.distribuidos.models.AddTaskRequest;
 import com.distribuidos.models.Mensagem;
@@ -30,7 +30,7 @@ public class Proxy {
         Mensagem msg = new Mensagem(0, Proxy.requestCounter, ServiceName, methodName, arguments);
         String serialized_msg = Mensagem.empacotarMensagem(msg);
         //TODO O BAGULHO DE UDP ENTRA AQUI ALEXSON
-        String response = serialized_msg;
+        String response = UDPClient.send(serialized_msg);
         Mensagem response_msg = Mensagem.desempacotarMensagem(response);
         return response_msg.getArguments();
     }

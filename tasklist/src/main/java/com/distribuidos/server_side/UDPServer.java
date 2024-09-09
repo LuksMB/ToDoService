@@ -1,4 +1,4 @@
-package com.distribuidos.serverSide;
+package com.distribuidos.server_side;
 
 import java.net.*;
 import java.io.*;
