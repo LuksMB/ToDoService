@@ -1,9 +1,9 @@
 package com.distribuidos.models;
 
 public class ViewTaskRequest {
-    String ViewTaskRequest;
+    String idRequest;
 
-    public ViewTaskRequest(String viewTaskRequest) {
-        ViewTaskRequest = viewTaskRequest;
+    public ViewTaskRequest(String id) {
+        this.idRequest = id;
     }
 }

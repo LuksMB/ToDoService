@@ -45,7 +45,7 @@ public class TaskList {
                 tasks.add(task);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Arquivo não encontrado. Criando um novo arquivo...");
         }
         return tasks;
     }
