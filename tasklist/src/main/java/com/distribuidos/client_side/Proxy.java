@@ -22,6 +22,18 @@ public class Proxy {
         }
         return null;
     }
+
+    public Task[] viewAllTasks(){
+        try {
+            String retorno = doOperation("TaskService", "viewAllTasks", "");
+            Task[] tasks = Task.stringToTaskArray(retorno);
+            return tasks;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao serializar a requisição: " + e.getMessage());
+        }
+        return null;
+    }
     
     public Task viewTask(ViewTaskRequest request){
         try {
@@ -46,11 +58,6 @@ public class Proxy {
         }
         return null;
     }
-
-    // public Task[] viewAllTasks(){
-
-    // }
-    
 
     public String doOperation(String ServiceName, String methodName, String arguments){
         Proxy.requestCounter++;
