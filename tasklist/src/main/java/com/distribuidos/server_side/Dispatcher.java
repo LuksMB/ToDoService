@@ -17,7 +17,6 @@ public class Dispatcher {
         try {
             // Desserializando a mensagem recebida
             Mensagem msg = Mensagem.desempacotarMensagem(receivedData);
-    
             String serviceName = msg.getObjectReference();
             String methodName = msg.getMethodId();
             String arguments = msg.getArguments();
