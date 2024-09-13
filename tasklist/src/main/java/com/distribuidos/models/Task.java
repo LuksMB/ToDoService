@@ -9,6 +9,17 @@ public class Task implements Serializable{
     private String description;
     private Boolean state;
 
+    public static Task[] stringToTaskArray(String tasksJson) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Task[] tasks = null;
+        try {
+            tasks = objectMapper.readValue(tasksJson, Task[].class);
+        } catch (Exception e) {
+            System.out.println("INFO: " + e);
+        }
+        return tasks;
+    }
+
     public Task() {
         this.title = "title";
         this.description = "description";
@@ -66,4 +77,10 @@ public class Task implements Serializable{
     public void setState(Boolean state) {
         this.state = state;
     }
+
+    @Override
+    public String toString() {
+        return "Task [title=" + title + ", description=" + description + ", state=" + state + "]";
+    }
+
 }

@@ -1,21 +1,16 @@
 package com.distribuidos.server_side;
 
 import java.net.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.*;
 
 public class UDPServer {
-    private DatagramSocket socket;
-    private Dispatcher despachante;
-    private ObjectMapper objectMapper;
+    private DatagramSocket socket = null;
+    private Dispatcher despachante = null;
 
     public UDPServer(int port) {
         try {
-            socket = new DatagramSocket(port);
-            despachante = new Dispatcher();
-            objectMapper = new ObjectMapper();
+            this.socket = new DatagramSocket(port);
+            this.despachante = new Dispatcher();
             System.out.println("Servidor aguardando conexões na porta " + port);
         } catch (SocketException e) {
             System.out.println("Erro ao iniciar o servidor: " + e.getMessage());
@@ -56,7 +51,7 @@ public class UDPServer {
             DatagramPacket reply = new DatagramPacket(responseData, responseData.length, clientAddress, clientPort);
             socket.send(reply);
         } catch (IOException e) {
-            System.out.println("Erro ao enviar resposta: " + e.getMessage());
+            System.err.println("Erro ao enviar resposta: " + e.getMessage());
         }
     }
 
