@@ -30,12 +30,12 @@ public class Skeleton {
         }
     }
 
-    public String viewTask(ViewTaskRequest viewRequest) {
+    public String viewTask(ViewTaskRequest viewRequest) throws Exception {
         Task task = taskList.viewTask(viewRequest.getIdRequest());
         if (task != null) {
             return task.serializar();
         } else {
-            return "Tarefa não encontrada.";
+            throw new Exception("Arquivo vazio");
         }
     }
 
