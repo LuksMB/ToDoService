@@ -54,7 +54,6 @@ public class TaskList {
         if (id >= 0 && id < tasks.size()) {
             return tasks.get(id);
         } else {
-            System.out.println("Tarefa não encontrada.");
             return null;
         }
     }
@@ -72,16 +71,16 @@ public class TaskList {
     }
 
     public String completeTask(String index) {
-        int id = Integer.valueOf(index);  // Converter o índice de string para inteiro
-        List<Task> tasks = readTasksFromFile();  // Ler todas as tarefas do arquivo
+        int id = Integer.valueOf(index);
+        List<Task> tasks = readTasksFromFile();
     
-        if (id >= 0 && id < tasks.size()) {  // Verificar se o índice é válido
-            Task task = tasks.get(id);  // Pegar a tarefa correspondente
-            task.setState(true);  // Marcar a tarefa como concluída (definir estado como true)
-            writeTasksToFile(tasks);  // Salvar as tarefas atualizadas no arquivo
+        if (id >= 0 && id < tasks.size()) { 
+            Task task = tasks.get(id);
+            task.setState(true);
+            writeTasksToFile(tasks);
             return "Tarefa marcada como concluída: " + task.getTitle();
         } else {
-            return "Tarefa não encontrada.";  // Se o índice for inválido
+            return "Tarefa não encontrada.";
         }
     }
 }

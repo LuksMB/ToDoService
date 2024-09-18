@@ -32,7 +32,11 @@ public class Dispatcher {
                 case "viewTask":
                     ViewTaskRequest viewRequest = objectMapper.readValue(arguments, ViewTaskRequest.class);
                     response = skeleton.viewTask(viewRequest);
-                    return Mensagem.empacotarMensagem(new Mensagem(0, msg.getId(), serviceName, methodName, response));
+                    if (response != null) {
+                        return Mensagem.empacotarMensagem(new Mensagem(0, msg.getId(), serviceName, methodName, response));
+                    } else {
+                        return null;
+                    }
                 case "removeTask":
                     RemoveTaskRequest removeRequest = objectMapper.readValue(arguments, RemoveTaskRequest.class);
                     response = skeleton.removeTask(removeRequest);
