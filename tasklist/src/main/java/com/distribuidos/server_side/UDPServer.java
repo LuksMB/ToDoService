@@ -1,11 +1,19 @@
+// UDPServer.java
 package com.distribuidos.server_side;
 
 import java.net.*;
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.distribuidos.models.Mensagem;
 
 public class UDPServer {
     private DatagramSocket socket = null;
     private Dispatcher despachante = null;
+
+    // Histórico de requisições processadas
+    private Map<Integer, String> requestHistory = new HashMap<>();
 
     public UDPServer(int port) {
         try {
@@ -20,14 +28,22 @@ public class UDPServer {
     public void start() {
         try {
             while (true) {
-                // Recebendo a requisição do cliente
                 DatagramPacket request = getRequest();
                 String receivedData = new String(request.getData(), 0, request.getLength());
-                
-                String responseJson = despachante.dispatch(receivedData);
 
-                // Enviando resposta de volta ao cliente
-                sendReply(responseJson, request.getAddress(), request.getPort());
+                // Extrair id da requisição
+                Mensagem receivedMsg = Mensagem.desempacotarMensagem(receivedData);
+                int requestId = receivedMsg.getId();
+
+                // Verificar se a requisição já foi processada
+                if (requestHistory.containsKey(requestId)) {
+                    System.out.println("Requisição duplicada detectada. Enviando resposta do cache.");
+                    sendReply(requestHistory.get(requestId), request.getAddress(), request.getPort());
+                } else {
+                    String responseJson = despachante.dispatch(receivedData);
+                    requestHistory.put(requestId, responseJson);
+                    sendReply(responseJson, request.getAddress(), request.getPort());
+                }
             }
         } catch (IOException e) {
             System.out.println("Erro durante a comunicação: " + e.getMessage());

@@ -19,7 +19,7 @@ public class Proxy {
             return doOperation("TaskService", "addTask", requestJson);
 
         } catch (Exception e) {
-            System.out.println("Erro ao serializar a requisição: " + e.getMessage());
+            System.out.println("Erro ao serializar a requisição!");
         }
         return null;
     }
@@ -31,7 +31,7 @@ public class Proxy {
             return tasks;
 
         } catch (Exception e) {
-            System.out.println("Erro ao serializar a requisição: " + e.getMessage());
+            System.out.println("Erro ao serializar a requisição!");
         }
         return null;
     }
@@ -43,7 +43,7 @@ public class Proxy {
             return Task.desserializar(doOperation("TaskService", "viewTask", requestJson));
 
         } catch (Exception e) {
-            System.out.println("Erro ao serializar a requisição: " + e.getMessage());
+            System.out.println("Erro ao serializar a requisição!");
         }
         return null;
     }
@@ -55,7 +55,7 @@ public class Proxy {
             return doOperation("TaskService", "removeTask", requestJson);
 
         } catch (Exception e) {
-            System.out.println("Erro ao serializar a requisição: " + e.getMessage());
+            System.out.println("Erro ao serializar a requisição!");
         }
         return null;
     }
@@ -66,7 +66,7 @@ public class Proxy {
             String requestJson = objectMapper.writeValueAsString(request);
             return doOperation("TaskService", "completeTask", requestJson);
         } catch (Exception e) {
-            System.out.println("Error ao serializar a requisição: " + e.getMessage());
+            System.out.println("Error ao serializar a requisição!");
         }
         return null;
     }
