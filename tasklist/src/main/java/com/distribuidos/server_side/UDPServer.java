@@ -48,7 +48,8 @@ public class UDPServer {
                 } else {
                     String responseJson = despachante.dispatch(receivedData);
                     requestHistory.put(clientInfo, responseJson);
-                    // sendReply(responseJson, request.getAddress(), request.getPort());
+                    //Comentar a linha abaixo gera o teste do histórico do servidor
+                    sendReply(responseJson, request.getAddress(), request.getPort());
                 }
             }
         } catch (IOException e) {
