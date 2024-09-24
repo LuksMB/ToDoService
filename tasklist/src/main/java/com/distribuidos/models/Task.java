@@ -1,9 +1,8 @@
 package com.distribuidos.models;
 
-import java.io.Serializable;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Task implements Serializable{
+public class Task{
 
     private String title;
     private String description;

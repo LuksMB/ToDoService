@@ -3,6 +3,7 @@ package com.distribuidos.client_side;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.SocketException;
 
 import com.distribuidos.models.AddTaskRequest;
 import com.distribuidos.models.CompleteTaskRequest;
@@ -51,30 +52,53 @@ public class User {
 
 		switch (operacao) {
 			case 1:
-				System.out.print("Digite o título da task: ");
-				String titulo = stdin.readLine();
-				System.out.println("Digite a descrição da task: ");
-				String descricao = stdin.readLine();
-				AddTaskRequest addRequest = new AddTaskRequest(titulo, descricao, false);
-				resposta = proxy.addTask(addRequest);
-				System.out.println("INFO: " + resposta);
+				
+				try {
+					System.out.print("Digite o título da task: ");
+					String titulo = stdin.readLine();
+					System.out.println("Digite a descrição da task: ");
+					String descricao = stdin.readLine();
+					AddTaskRequest addRequest = new AddTaskRequest(titulo, descricao, false);
+					resposta = proxy.addTask(addRequest);
+
+					if (resposta == null) {
+						throw new Exception();
+					}
+
+					System.out.println("INFO: " + resposta);
+				} catch (Exception e) {
+					System.out.println("INFO: Servidor Indisponível");
+				}				
 				break;
 
 			case 2:
-				System.out.print("Digite o número da task: ");
-				id = stdin.readLine();
-				ViewTaskRequest viewRequest = new ViewTaskRequest(id);
-				Task task1 = proxy.viewTask(viewRequest);
-				System.out.println("Task:");
-				System.out.println("  Título: " + task1.getTitle());
-				System.out.println("  Descrição: " + task1.getDescription());
-				System.out.println("  Estado: " + (task1.getState() ? "Completa" : "Pendente"));
-				System.out.println("---------------------------");
+				try {
+					System.out.print("Digite o número da task: ");
+					id = stdin.readLine();
+					ViewTaskRequest viewRequest = new ViewTaskRequest(id);
+					Task task1 = proxy.viewTask(viewRequest);
+
+					if (task1 == null){
+						throw new Exception();
+					}
+
+					System.out.println("Task:");
+					System.out.println("  Título: " + task1.getTitle());
+					System.out.println("  Descrição: " + task1.getDescription());
+					System.out.println("  Estado: " + (task1.getState() ? "Completa" : "Pendente"));
+					System.out.println("---------------------------");
+				} catch (Exception e) {
+					System.out.println("INFO: Servidor Indisponível");
+				}
+				
 				break;
 
 			case 3:
 				try {
 					Task[] tasks = proxy.viewAllTasks();
+					if (tasks == null){
+						throw new Exception();
+					}
 					if (tasks.length == 0){
 						System.out.println("Nenhuma task cadastrada.");
 					}
@@ -86,25 +110,41 @@ public class User {
 						System.out.println("---------------------------");
 					}
 				} catch (Exception e) {
-					System.out.println("INFO: " + e.getMessage());
+					System.out.println("INFO: Servidor Indisponível");
 				}
 				
 				break;
 
 			case 4:
-				System.out.print("Digite o número da task: ");
-				id = stdin.readLine();
-				RemoveTaskRequest removeRequest = new RemoveTaskRequest(id);
-				resposta = proxy.removeTask(removeRequest);
-				System.out.println("INFO: " + resposta);
+				try {
+					System.out.print("Digite o número da task: ");
+					id = stdin.readLine();
+					RemoveTaskRequest removeRequest = new RemoveTaskRequest(id);
+					resposta = proxy.removeTask(removeRequest);
+					if (resposta == null){
+						throw new Exception();
+					}
+					System.out.println("INFO: " + resposta);
+				} catch (Exception e) {
+					System.out.println("INFO: Servidor Indisponível");
+				}	
+				
 				break;
 			
 			case 5:
+			try {
 				System.out.print("Digite o número da task que deseja marcar como completa: ");
 				id = stdin.readLine();
 				CompleteTaskRequest completeRequest = new CompleteTaskRequest(id);
 				resposta = proxy.completeTask(completeRequest);
+				if (resposta == null){
+					throw new Exception();
+				}
 				System.out.println("INFO: " + resposta);
+			} catch (Exception e) {
+				System.out.println("INFO: Servidor Indisponível");
+			}
+				
 				break;
 
 			case 0:

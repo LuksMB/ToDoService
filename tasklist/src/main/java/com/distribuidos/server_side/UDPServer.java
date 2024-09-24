@@ -7,13 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.distribuidos.models.Mensagem;
+import com.distribuidos.models.RequestInfo;
 
 public class UDPServer {
     private DatagramSocket socket = null;
     private Dispatcher despachante = null;
 
     // Histórico de requisições processadas
-    private Map<Integer, String> requestHistory = new HashMap<>();
+    private Map<RequestInfo, String> requestHistory = new HashMap<>();
 
     public UDPServer(int port) {
         try {
@@ -31,18 +32,23 @@ public class UDPServer {
                 DatagramPacket request = getRequest();
                 String receivedData = new String(request.getData(), 0, request.getLength());
 
+                // Captura de endereço para histórico
+                InetAddress clientAddress = request.getAddress();
+                int clientPort = request.getPort();
+
                 // Extrair id da requisição
                 Mensagem receivedMsg = Mensagem.desempacotarMensagem(receivedData);
                 int requestId = receivedMsg.getId();
+                RequestInfo clientInfo = new RequestInfo(requestId, clientAddress, clientPort);
 
                 // Verificar se a requisição já foi processada
-                if (requestHistory.containsKey(requestId)) {
+                if (requestHistory.containsKey(clientInfo)) {
                     System.out.println("Requisição duplicada detectada. Enviando resposta do cache.");
-                    sendReply(requestHistory.get(requestId), request.getAddress(), request.getPort());
+                    sendReply(requestHistory.get(clientInfo), clientAddress, clientPort);
                 } else {
                     String responseJson = despachante.dispatch(receivedData);
-                    requestHistory.put(requestId, responseJson);
-                    sendReply(responseJson, request.getAddress(), request.getPort());
+                    requestHistory.put(clientInfo, responseJson);
+                    // sendReply(responseJson, request.getAddress(), request.getPort());
                 }
             }
         } catch (IOException e) {
